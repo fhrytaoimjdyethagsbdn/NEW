@@ -1,16 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(PSY_ZUMBO VERSION 0.1.0)
 
-include(FetchContent)
-
-set(JUCE_VERSION 8.0.10 CACHE STRING "JUCE version")
-FetchContent_Declare(
-    JUCE
-    GIT_REPOSITORY https://github.com
-    GIT_TAG ${JUCE_VERSION}
-    GIT_SHALLOW TRUE
-)
-FetchContent_MakeAvailable(JUCE)
+set(JUCE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/JUCE" CACHE PATH "Path to JUCE")
+add_subdirectory(${JUCE_ROOT} JUCE)
 
 juce_add_plugin(PSY_ZUMBO
     COMPANY_NAME "PSY ZUMBO Audio"
