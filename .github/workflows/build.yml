@@ -20,7 +20,8 @@ jobs:
           ref: '7.0.7'
           path: JUCE
 
-      - name: Configure CMake
+      - name: run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=JUCE -DJUCE_BUILD_HELPER_TOOLS=ON
+
         run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=JUCE
 
       - name: Build VST3 Plugin
