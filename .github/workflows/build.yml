@@ -20,9 +20,21 @@ jobs:
           ref: '7.0.7'
           path: JUCE
 
-      - name: run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=JUCE -DJUCE_BUILD_HELPER_TOOLS=ON
+      - name: Auto-Create JuceHeader
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "Source"
+          @'
+          #pragma once
+          #include <juce_audio_processors/juce_audio_processors.h>
+          #include <juce_audio_utils/juce_audio_utils.h>
+          #include <juce_gui_basics/juce_gui_basics.h>
+          #include <juce_gui_extra/juce_gui_extra.h>
+          #include <juce_dsp/juce_dsp.h>
+          '@ | Out-File -FilePath "Source\JuceHeader.h" -Encoding utf8
 
-        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=JUCE
+      - name: Configure CMake
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=JUCE -DJUCE_BUILD_HELPER_TOOLS=ON
 
       - name: Build VST3 Plugin
         run: cmake --build build --config Release --parallel
