@@ -2,7 +2,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-PSY_ZUMBOAudioProcessorEditor::PSY_ZUMBOAudioProcessorEditor (PSY_ZUMBOAudioProcessor& p)
+PsyzumboAudioProcessorEditor::PsyzumboAudioProcessorEditor (PSY_ZUMBOAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     // Make sure that before the constructor has finished, you've set the
@@ -10,12 +10,12 @@ PSY_ZUMBOAudioProcessorEditor::PSY_ZUMBOAudioProcessorEditor (PSY_ZUMBOAudioProc
     setSize (920, 560);
 }
 
-PSY_ZUMBOAudioProcessorEditor::~PSY_ZUMBOAudioProcessorEditor()
+PsyzumboAudioProcessorEditor::~PsyzumboAudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void PSY_ZUMBOAudioProcessorEditor::paint (juce::Graphics& g)
+void PsyzumboAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (juce::Colour::fromRGB (14, 18, 23));
@@ -36,7 +36,7 @@ void PSY_ZUMBOAudioProcessorEditor::paint (juce::Graphics& g)
     g.drawText ("4-voice oscillation core • granular texture • filter • envelopes • LFO • presets", 31, 114, 600, 25, juce::Justification::left);
 }
 
-void PSY_ZUMBOAudioProcessorEditor::resized()
+void PsyzumboAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any of your subcomponents..
     const int margin = 34;
