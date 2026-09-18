@@ -18,6 +18,19 @@ jobs:
           ref: '8.0.10'
           path: JUCE
 
+      - name: Create JuceHeader Manually
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "Source"
+          @'
+          #pragma once
+          #include <juce_audio_processors/juce_audio_processors.h>
+          #include <juce_audio_utils/juce_audio_utils.h>
+          #include <juce_gui_basics/juce_gui_basics.h>
+          #include <juce_gui_extra/juce_gui_extra.h>
+          #include <juce_dsp/juce_dsp.h>
+          '@ | Out-File -FilePath "Source\JuceHeader.h" -Encoding utf8
+
       - name: Configure CMake
         run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=JUCE
 
