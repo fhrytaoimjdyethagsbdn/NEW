@@ -2,8 +2,6 @@ name: Build PSY - ZUMBO (Windows VST3)
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -13,50 +11,14 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Setup JUCE Framework
-        uses: actions/checkout@v4
-        with:
-          repository: juce-framework/JUCE
-          ref: '7.0.7'
-          path: JUCE
-
-      - name: Auto-Create JuceHeader
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force -Path "Source"
-          @'
-          #pragma once
-          #include <juce_audio_processors/juce_audio_processors.h>
-          #include <juce_audio_utils/juce_audio_utils.h>
-          #include <juce_gui_basics/juce_gui_basics.h>
-          #include <juce_gui_extra/juce_gui_extra.h>
-          #include <juce_dsp/juce_dsp.h>
-          '@ | Out-File -FilePath "Source\JuceHeader.h" -Encoding utf8
-
-      - name: Fix Project Name in CMakeLists
-        run: |
-          powershell -Command "(Get-Content CMakeLists.txt) -replace 'PSY-ZUMBO', 'zumbo' -replace 'PSY_ZUMBO', 'zumbo' -replace 'PSY ZUMBO', 'zumbo' | Set-Content CMakeLists.txt"
-
       - name: Configure CMake
-        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=JUCE -DJUCE_BUILD_HELPER_TOOLS=ON
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
 
       - name: Build VST3 Plugin
         run: cmake --build build --config Release --parallel
 
-      - name: Locate VST3 File
-        shell: pwsh
-        run: |
-          $vst3Path = Get-ChildItem -Path . -Filter "*.vst3" -Recurse | Select-Object -First 1
-          if ($vst3Path) {
-              echo "FOUND_VST3=true" >> $env:GITHUB_ENV
-              echo "VST3_DIR=$($vst3Path.DirectoryName)" >> $env:GITHUB_ENV
-          } else {
-              echo "FOUND_VST3=false" >> $env:GITHUB_ENV
-          }
-
       - name: Upload Artifact
-        if: env.FOUND_VST3 == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: PSY-ZUMBO-Windows-x64
-          path: ${{ env.VST3_DIR }}
+          path: build/PSY_ZUMBO_artefacts/Release/VST3/
