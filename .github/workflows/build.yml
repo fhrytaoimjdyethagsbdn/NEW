@@ -16,7 +16,8 @@ jobs:
       - name: Setup JUCE Framework
         shell: pwsh
         run: |
-          git clone --depth 1 --branch 7.0.7 https://github.com ../JUCE
+          git clone --depth 1 --branch 7.0.7 https://github.com JUCE
+
 
       - name: Configure CMake
         run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=../JUCE
