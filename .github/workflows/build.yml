@@ -18,14 +18,24 @@ jobs:
           ref: '8.0.10'
           path: JUCE
 
+      - name: Clean Old Build Code
+        shell: pwsh
+        run: |
+          Get-ChildItem -Path "Source" -Filter "*.h" -Recurse | ForEach-Object {
+              (Get-Content $_.FullName) -replace '#include <JuceHeader.h>', '' -replace '#include "JuceHeader.h"', '' | Set-Content $_.FullName
+          }
+          Get-ChildItem -Path "Source" -Filter "*.cpp" -Recurse | ForEach-Object {
+              (Get-Content $_.FullName) -replace '#include <JuceHeader.h>', '' -replace '#include "JuceHeader.h"', '' | Set-Content $_.FullName
+          }
+
       - name: Configure CMake
-        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=JUCE
+        run: cmake -S . -B build_clean_final -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DJUCE_ROOT=JUCE
 
       - name: Build VST3 Plugin
-        run: cmake --build build --config Release --parallel
+        run: cmake --build build_clean_final --config Release --parallel
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: PSY-ZUMBO-Windows-x64
-          path: build/PSY_ZUMBO_artefacts/Release/VST3/
+          path: build_clean_final/PSY_ZUMBO_artefacts/Release/VST3/
