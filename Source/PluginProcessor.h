@@ -13,8 +13,6 @@ public:
     void prepare(double sr, int maxBlock)
     {
         sampleRate = sr;
-        osc1.setSampleRate(sr); osc2.setSampleRate(sr);
-        osc3.setSampleRate(sr); osc4.setSampleRate(sr);
         filter.prepare({ sr, (juce::uint32)maxBlock, 2 });
         filter.setType(juce::dsp::StateVariableTPTFilterType::lowpass);
         adsr.setSampleRate(sr);
@@ -84,13 +82,13 @@ public:
             const float env = adsr.getNextSample();
             s *= env * velocity * outLevel;
 
-            float channels[2] = { s, s };
-            juce::dsp::AudioBlock<float> b(channels, 2, 1);
-            juce::dsp::ProcessContextReplacing<float> ctx(b);
-            filter.process(ctx);
+            float channelBuffer[2] = { s, s };
+            juce::dsp::AudioBlock<float> b (channelBuffer);
+            juce::dsp::ProcessContextReplacing<float> ctx (b);
+            filter.process (ctx);
 
-            left[i] += channels[0];
-            right[i] += channels[1];
+            left[i] += channelBuffer[0];
+            right[i] += channelBuffer[1];
 
             if (!adsr.isActive())
             {
@@ -148,9 +146,6 @@ private:
     juce::ADSR::Parameters adsrParams;
     juce::dsp::StateVariableTPTFilter<float> filter;
     Granular granular;
-    
-    // Fallback dummy oscillators to satisfy code references without external dependencies
-    struct DummyOsc { void setSampleRate(double) {} } osc1, osc2, osc3, osc4;
 };
 
 class PsyZumboAudioProcessor : public juce::AudioProcessor
