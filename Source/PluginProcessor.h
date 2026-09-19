@@ -82,13 +82,13 @@ public:
             const float env = adsr.getNextSample();
             s *= env * velocity * outLevel;
 
-            float channelBuffer[2] = { s, s };
-            juce::dsp::AudioBlock<float> b (channelBuffer);
+            float* data[] = { &s, &s };
+            juce::dsp::AudioBlock<float> b (data, 2, 1);
             juce::dsp::ProcessContextReplacing<float> ctx (b);
             filter.process (ctx);
 
-            left[i] += channelBuffer[0];
-            right[i] += channelBuffer[1];
+            left[i] += s;
+            right[i] += s;
 
             if (!adsr.isActive())
             {
