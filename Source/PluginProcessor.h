@@ -1,6 +1,7 @@
 #pragma once
 
-#include <JuceHeader.h>
+// Απευθείας include του module αντί για το JuceHeader.h
+#include <juce_audio_processors/juce_audio_processors.h>
 
 class PsyZumboAudioProcessor  : public juce::AudioProcessor
 {
