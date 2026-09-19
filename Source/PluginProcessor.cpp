@@ -1,7 +1,6 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-//==============================================================================
 PsyZumboAudioProcessor::PsyZumboAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
@@ -20,7 +19,6 @@ PsyZumboAudioProcessor::~PsyZumboAudioProcessor()
 {
 }
 
-//==============================================================================
 const juce::String PsyZumboAudioProcessor::getName() const
 {
     return JucePlugin_Name;
@@ -60,7 +58,7 @@ double PsyZumboAudioProcessor::getTailLengthSeconds() const
 
 int PsyZumboAudioProcessor::getNumPrograms()
 {
-    return 1;   
+    return 1;
 }
 
 int PsyZumboAudioProcessor::getCurrentProgram()
@@ -81,9 +79,9 @@ void PsyZumboAudioProcessor::changeProgramName (int index, const juce::String& n
 {
 }
 
-//==============================================================================
 void PsyZumboAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    juce::ignoreUnused (sampleRate, samplesPerBlock);
 }
 
 void PsyZumboAudioProcessor::releaseResources()
@@ -123,31 +121,33 @@ void PsyZumboAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
+        juce::ignoreUnused (channelData);
     }
 }
 
-//==============================================================================
 bool PsyZumboAudioProcessor::hasEditor() const
 {
-    return true; 
+    return true;
 }
 
 juce::AudioProcessorEditor* PsyZumboAudioProcessor::createEditor()
 {
-    return new PsyZumboAudioProcessorEditor (*this); 
+    return new PsyZumboAudioProcessorEditor (*this);
 }
 
-//==============================================================================
 void PsyZumboAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
+    juce::ignoreUnused (destData);
 }
 
 void PsyZumboAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
+    juce::ignoreUnused (data, sizeInBytes);
 }
 
-//==============================================================================
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new PsyZumboAudioProcessor();
 }
+
+
