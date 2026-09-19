@@ -129,12 +129,12 @@ void PsyZumboAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
 //==============================================================================
 bool PsyZumboAudioProcessor::hasEditor() const
 {
-    return true; // Δηλώνουμε true γιατί τώρα έχουμε το PluginEditor έτοιμο
+    return true; 
 }
 
 juce::AudioProcessorEditor* PsyZumboAudioProcessor::createEditor()
 {
-    return new PsyZumboAudioProcessorEditor (*this); // Επιστρέφει σωστά τον Editor
+    return new PsyZumboAudioProcessorEditor (*this); 
 }
 
 //==============================================================================
