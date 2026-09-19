@@ -15,7 +15,8 @@ void PsyZumboAudioProcessorEditor::paint (juce::Graphics& g)
 {
     g.fillAll (juce::Colours::black);
 
-    g.setColour (juce::Colours::neonGreen);
+    // Χρήση standard πράσινου χρώματος που υποστηρίζεται παντού
+    g.setColour (juce::Colours::green);
     g.setFont (15.0f);
     g.drawFittedText ("PSY - ZUMBO Synthesizer Core", getLocalBounds(), juce::Justification::centred, 1);
 }
