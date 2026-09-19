@@ -1,4 +1,3 @@
-#include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -24,3 +23,6 @@ void PsyZumboAudioProcessorEditor::paint (juce::Graphics& g)
 void PsyZumboAudioProcessorEditor::resized()
 {
 }
+
+
+
