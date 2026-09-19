@@ -1,4 +1,5 @@
 #include "PluginProcessor.h"
+#include "PluginEditor.h"
 
 //==============================================================================
 PsyZumboAudioProcessor::PsyZumboAudioProcessor()
@@ -59,7 +60,7 @@ double PsyZumboAudioProcessor::getTailLengthSeconds() const
 
 int PsyZumboAudioProcessor::getNumPrograms()
 {
-    return 1;   // Απαιτείται τουλάχιστον 1 program για να είναι έγκυρο το plugin
+    return 1;   
 }
 
 int PsyZumboAudioProcessor::getCurrentProgram()
@@ -83,12 +84,10 @@ void PsyZumboAudioProcessor::changeProgramName (int index, const juce::String& n
 //==============================================================================
 void PsyZumboAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Αρχικοποίηση των DSP εφέ σου εδώ
 }
 
 void PsyZumboAudioProcessor::releaseResources()
 {
-    // Απελευθέρωση πόρων αν χρειάζεται
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -118,42 +117,36 @@ void PsyZumboAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // Καθαρισμός των καναλιών εξόδου που δεν έχουν δεδομένα εισόδου
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // Εδώ μπαίνει ο κώδικας επεξεργασίας ήχου (Audio Processing)
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-        // Παράδειγμα: επεξεργασία των δειγμάτων ήχου στο channelData
     }
 }
 
 //==============================================================================
 bool PsyZumboAudioProcessor::hasEditor() const
 {
-    return false; // Επιστρέφει false αν δεν υπάρχει custom GUI
+    return true; // Δηλώνουμε true γιατί τώρα έχουμε το PluginEditor έτοιμο
 }
 
 juce::AudioProcessorEditor* PsyZumboAudioProcessor::createEditor()
 {
-    return nullptr; // Επιστρέφει nullptr επειδή το hasEditor είναι false
+    return new PsyZumboAudioProcessorEditor (*this); // Επιστρέφει σωστά τον Editor
 }
 
 //==============================================================================
 void PsyZumboAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // Αποθήκευση των παραμέτρων του plugin σου
 }
 
 void PsyZumboAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // Ανάκτηση των παραμέτρων του plugin σου
 }
 
 //==============================================================================
-// Αυτό δημιουργεί το instance του plugin
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new PsyZumboAudioProcessor();
