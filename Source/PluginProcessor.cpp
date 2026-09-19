@@ -135,7 +135,7 @@ juce::AudioProcessorEditor* PsyZumboAudioProcessor::createEditor()
     return new PsyZumboAudioProcessorEditor (*this);
 }
 
-void PsyZumboAudioProcessorProcessor::getStateInformation (juce::MemoryBlock& destData)
+void PsyZumboAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
     juce::ignoreUnused (destData);
 }
