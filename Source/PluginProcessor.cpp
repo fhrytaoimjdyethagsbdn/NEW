@@ -95,12 +95,13 @@ bool PsyZumboAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts)
     juce::ignoreUnused (layouts);
     return true;
   #else
-    if (layouts.getMainOutput() != juce::AudioChannelSet::mono()
-     && layouts.getMainOutput() != juce::AudioChannelSet::stereo())
+    // Διορθώθηκε για 100% συμβατότητα με παλαιότερες εκδόσεις JUCE (χρήση getChannelSet)
+    if (layouts.getChannelSet (false, 0) != juce::AudioChannelSet::mono()
+     && layouts.getChannelSet (false, 0) != juce::AudioChannelSet::stereo())
         return false;
 
    #if ! JucePlugin_IsSynth
-    if (layouts.getMainOutput() != layouts.getMainInput())
+    if (layouts.getChannelSet (false, 0) != layouts.getChannelSet (true, 0))
         return false;
    #endif
 
@@ -149,5 +150,6 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new PsyZumboAudioProcessor();
 }
+
 
 
